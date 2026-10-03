@@ -1,0 +1,15 @@
+[Bb]in/
+[Oo]bj/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+packages/
+# If you use modern .NET with tool manifests or local caches:
+.nuget/
+*.user
+appsettings.Development.json
+# Uncomment the line below if you want to completely block local user secrets files:
+# secrets.json
+*.slnx
