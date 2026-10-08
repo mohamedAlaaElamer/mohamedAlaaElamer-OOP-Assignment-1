@@ -18,7 +18,7 @@ namespace Part1_ProceduralToOOP
             if (quantity <= 0)
                 throw new ArgumentException("Quantity must be greater than zero.");
 
-            product.ReduceStock(quantity);
+
         }
 
         
