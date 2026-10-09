@@ -23,14 +23,12 @@ namespace Part1_ProceduralToOOP
             OrderLines = new List<OrderLine>();
         }
 
-
         public void AddLineToOrder(OrderLine ol)
         {
             if (IsPaid)
             {
                 throw new InvalidOperationException("Cannot add line to a paid order.");
             }
-
 
             ol.Product.ReduceStock(ol.Quantity);
 
