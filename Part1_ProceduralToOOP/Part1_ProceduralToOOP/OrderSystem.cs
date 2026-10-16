@@ -61,6 +61,11 @@ namespace Part1_ProceduralToOOP
                 throw new InvalidOperationException("Order not found.");
             }
 
+            if (order.IsPaid)
+            {
+                throw new InvalidOperationException("Order is already marked as paid.");
+            }
+
             order.MarkAsPaid();
         }
 

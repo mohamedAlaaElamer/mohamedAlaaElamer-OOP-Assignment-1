@@ -20,7 +20,15 @@ namespace Part1_ProceduralToOOP
             while (true)
             {
                 Console.WriteLine("1. Add Customer");
-                Console.WriteLine("6. PrintAllCustomers");
+                Console.WriteLine("2. Add Product");
+                Console.WriteLine("3. Create Order");
+                Console.WriteLine("4. Add Line to Order");
+                Console.WriteLine("5. Mark Order as Paid");
+                Console.WriteLine("6. Print All Customers");
+                Console.WriteLine("7. Print Products");
+                Console.WriteLine("8. Print All Orders");
+                Console.WriteLine("9. Print Order by ID");
+                Console.WriteLine("10. Show Total Sales (Paid Orders Only)");
                 Console.WriteLine("0. Exit");
 
                 Console.WriteLine("Enter your choice:");
@@ -28,6 +36,7 @@ namespace Part1_ProceduralToOOP
                 switch (choice)
                 {
                     case 1:
+                        //add customer
                         Console.WriteLine("Enter customer id:");
                         bool isValidId = int.TryParse(Console.ReadLine(), out int customerId);
 
@@ -79,6 +88,7 @@ namespace Part1_ProceduralToOOP
                         break;
 
                     case 2:
+                        //add product
                         Console.WriteLine("Enter product id:");
                         bool isPValidId = int.TryParse(Console.ReadLine(), out int productId);
 
@@ -118,6 +128,7 @@ namespace Part1_ProceduralToOOP
                         _orderSystem.AddProduct(new Product(productId, productName, productPrice, productStock));
                         break;
                     case 3:
+                        //create order
                         _orderSystem.PrintAllCustomers();
                         Console.WriteLine("Choose a customer to create order :");
 
@@ -135,8 +146,6 @@ namespace Part1_ProceduralToOOP
 
                         bool isOrderIdValid = int.TryParse(Console.ReadLine(), out int orderId);
 
-                        _orderSystem.Orders.Exists(c => c.Id == orderId);
-
                         while (_orderSystem.Orders.Exists(c => c.Id == orderId) || orderId <= 0 || !isOrderIdValid)
                         {
                             Console.WriteLine("Order with this ID already exists or is invalid. Please enter a different ID.");
@@ -147,8 +156,102 @@ namespace Part1_ProceduralToOOP
 
                         Console.WriteLine("Order created successfully.");
                         break;
+
+                    case 4:
+                        //add line to order
+                        _orderSystem.PrintAllOrders();
+
+                        Console.WriteLine("Enter order ID: ");
+
+                        isOrderIdValid = int.TryParse(Console.ReadLine(), out orderId);
+
+                        while (!_orderSystem.Orders.Exists(c => c.Id == orderId) || orderId <= 0 || !isOrderIdValid)
+                        {
+                            Console.WriteLine("Order with this ID not found or is invalid. Please enter a different ID.");
+                            isOrderIdValid = int.TryParse(Console.ReadLine(), out orderId);
+                        }
+
+                        _orderSystem.PrintProducts();
+                        Console.WriteLine("Enter product ID to add to order: ");
+
+                        bool isProductIdValid = int.TryParse(Console.ReadLine(), out productId);
+
+                        while (!_orderSystem.Products.Exists(c => c.Id == productId) || productId <= 0 || !isProductIdValid)
+                        {
+                            Console.WriteLine("Product with this ID not found or is invalid. Please enter a different ID.");
+                            isProductIdValid = int.TryParse(Console.ReadLine(), out productId);
+                        }
+
+                        Console.WriteLine("Enter quantity: ");
+
+                        bool isQuantityValid = int.TryParse(Console.ReadLine(), out int quantity);
+
+                        while (!isQuantityValid || quantity <= 0)
+                        {
+                            Console.WriteLine("Invalid quantity. Please enter a valid quantity (greater than 0):");
+                            isQuantityValid = int.TryParse(Console.ReadLine(), out quantity);
+                        }
+
+                        try
+                        {
+                            _orderSystem.AddLineToOrder(orderId, productId, quantity);
+                            Console.WriteLine("Order line added successfully.");
+
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+
+                        }
+                            break;
+                    case 5:
+                        //mark order as paid
+                        _orderSystem.PrintAllOrders();
+
+                        Console.WriteLine("Enter order ID to mark as paid: ");
+
+                        isOrderIdValid = int.TryParse(Console.ReadLine(), out orderId);
+
+                        while (!_orderSystem.Orders.Exists(c => c.Id == orderId) || orderId <= 0 || !isOrderIdValid)
+                        {
+                            Console.WriteLine("Order with this ID not found or is invalid. Please enter a different ID.");
+                            isOrderIdValid = int.TryParse(Console.ReadLine(), out orderId);
+                        }
+
+                        try
+                        {
+                            _orderSystem.MarkOrderPaid(orderId);
+                            Console.WriteLine("Order marked as paid successfully.");
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
+
+
+                        break;
                     case 6:
                         _orderSystem.PrintAllCustomers();
+                        break;
+                    case 7:
+                        _orderSystem.PrintProducts();
+                        break;
+                    case 8:
+                        _orderSystem.PrintAllOrders();
+                        break;
+                    case 9:
+                        Console.WriteLine("Enter order ID: ");
+                        isOrderIdValid = int.TryParse(Console.ReadLine(), out orderId);
+                        while (!_orderSystem.Orders.Exists(c => c.Id == orderId) || orderId <= 0 || !isOrderIdValid)
+                        {
+                            Console.WriteLine("Order with this ID not found or is invalid. Please enter a different ID.");
+                            isOrderIdValid = int.TryParse(Console.ReadLine(), out orderId);
+                        }
+                        _orderSystem.PrintOrderById(orderId);
+                        break;
+                    case 10:
+                        decimal result = _orderSystem.TotalSalesPaidOnly();
+                        Console.WriteLine($"Total sales (paid only): {result}");
                         break;
                     case 0:
                         return; 
