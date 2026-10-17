@@ -14,11 +14,11 @@ namespace Part2_HotelReservationSystem
     }
     public class Reservation
     {
-        public int ReservationId { get; init; }
-        public DateTime CheckInDate { get; init; }
-        public DateTime CheckOutDate { get; init; }
-        public Room? Room { get; }
-        public ReservationStatus Status { get; private set; } = ReservationStatus.Pending;
+        public int ReservationId { get;}
+        public DateTime CheckInDate { get;}
+        public DateTime CheckOutDate { get;}
+        public Room Room { get; }
+        public ReservationStatus Status { get; private set; }
 
 
         public Reservation(int reservationId, DateTime checkInDate, DateTime checkOutDate , 
@@ -93,6 +93,14 @@ namespace Part2_HotelReservationSystem
             {
                 throw new InvalidOperationException("Reservation can only be cancelled if it is in Pending or Confirmed status.");
             }
+        }
+
+        public decimal TotalCost()
+        {
+            TimeSpan duration = CheckOutDate - CheckInDate;
+            decimal totalCost = (decimal)duration.TotalDays * Room.NightlyRate;
+
+            return totalCost;
         }
     }
 }
