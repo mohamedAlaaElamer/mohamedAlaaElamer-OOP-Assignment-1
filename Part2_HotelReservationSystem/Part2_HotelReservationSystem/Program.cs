@@ -4,9 +4,7 @@
     {
         static void Main(string[] args)
         {
-            Room room = new Room(1, RoomType.Single, 100.00m);
-
-            Console.WriteLine(room.RoomNumber);
+            HotelSystem hotelSystem = new HotelSystem();
         }
     }
 }
