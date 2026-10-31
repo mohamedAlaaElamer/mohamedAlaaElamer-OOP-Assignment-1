@@ -13,7 +13,7 @@ namespace Part2_HotelReservationSystem
     }
     public class Room
     {
-        public int RoomNumber { get; init; }
+        public int RoomNumber { get;}
         public RoomType RoomType { get; }
         public decimal NightlyRate { get; private set; }
 

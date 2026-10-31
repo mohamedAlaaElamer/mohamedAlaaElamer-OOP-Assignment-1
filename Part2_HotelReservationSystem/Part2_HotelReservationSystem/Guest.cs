@@ -4,11 +4,11 @@ namespace Part2_HotelReservationSystem
 {
     public class Guest
     {
-        public int GuestId { get; init; }
+        public int GuestId { get; }
 
-        public string FullName { get; init; }
+        public string FullName { get; }
 
-        public string PhoneNumber { get; init; }
+        public string PhoneNumber { get;}
 
         public IReadOnlyList<Reservation> Reservations => (reservation.AsReadOnly());
 
@@ -33,7 +33,6 @@ namespace Part2_HotelReservationSystem
             PhoneNumber = phoneNumber;
         }
 
-
         public void AddReservation(Reservation reservation)
         {
             if (reservation == null)
@@ -42,6 +41,17 @@ namespace Part2_HotelReservationSystem
             }
 
             this.reservation.Add(reservation);
+        }
+
+        public void PrintReservations()
+        {
+            Console.WriteLine($"Reservations for Guest: {FullName} (ID: {GuestId})");
+            foreach (var res in reservation)
+            {
+                Console.WriteLine($"Reservation ID: {res.ReservationId}, Room Number: {res.Room.RoomNumber}, " +
+                                  $"Check-In: {res.CheckInDate.ToShortDateString()}, Check-Out: {res.CheckOutDate.ToShortDateString()}, " +
+                                  $"Status: {res.Status}");
+            }
         }
     }
 }
